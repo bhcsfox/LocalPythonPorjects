@@ -26,21 +26,31 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(270, 60, 71, 21))
         self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(100, 130, 71, 21))
+        self.label_2.setObjectName("label_2")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pushButton.clicked.connect(MainWindow.showMaximized)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        signal_1 = QtCore.pyqtSignal()  # 不带参数
 
+        self.pushButton.clicked.connect(self.label_2.show)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    def xianshi(self):
+        line=self.lineEdit.text()
+        self.label_2.setText(line)
+
+    def signal_1_call(self):
+        self.signal_1.emit()
+    #自定义的槽函数
+    def signal_1_response(self):
+        print("不带参数")
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.label_2.setText(_translate("MainWindow", "TextLabel"))
