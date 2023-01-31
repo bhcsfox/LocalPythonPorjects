@@ -3,6 +3,10 @@ import demo
 from PyQt5.QtWidgets import QApplication,QMainWindow
 
 
+
+
+
+
 if __name__ == '__main__':
     # 只有直接运行这个脚本，才会往下执行
     # 别的脚本文件执行，不会调用这个条件句

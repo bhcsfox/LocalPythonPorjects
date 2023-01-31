@@ -9,7 +9,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import threading
+from time import sleep
+from datetime import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -29,28 +31,48 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(100, 130, 71, 21))
         self.label_2.setObjectName("label_2")
+        self.plainTextEdit = QtWidgets.QPlainTextEdit(self.centralwidget)
+        self.plainTextEdit.setGeometry(QtCore.QRect(30, 180, 341, 361))
+        self.plainTextEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.plainTextEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.plainTextEdit.setObjectName("plainTextEdit")
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setGeometry(QtCore.QRect(440, 180, 281, 371))
+        self.textEdit.setObjectName("textEdit")
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(510, 90, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        signal_1 = QtCore.pyqtSignal()  # 不带参数
-
         self.pushButton.clicked.connect(self.label_2.show)
+        self.pushButton_2.clicked.connect(self.xianshi2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    def xianshi(self):
-        line=self.lineEdit.text()
-        self.label_2.setText(line)
 
-    def signal_1_call(self):
-        self.signal_1.emit()
-    #自定义的槽函数
-    def signal_1_response(self):
-        print("不带参数")
+    def xianshi(self):
+        new_thread = threading.Thread(target=self.job1, name="T1")
+        new_thread.start()
+    def xianshi2(self):
+        new_thread = threading.Thread(target=self.job2, name="T2")
+        new_thread.start()
+    def job2(self):
+        while True:
+            time2 = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            self.textEdit.append(time2)
+            sleep(2)
+    def job1(self):
+        # 让这个线程多执行几秒
+        while True:
+            time1 = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            self.plainTextEdit.appendPlainText(time1)
+            sleep(2)
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.label_2.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
